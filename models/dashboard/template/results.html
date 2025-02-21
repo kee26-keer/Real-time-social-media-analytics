@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Sentiment Analysis Results{% endblock %}
+
+{% block content %}
+<h2>Sentiment Analysis Results</h2>
+<p>The sentiment analysis for the provided tweets is:</p>
+
+<!-- Display Sentiment Percentages -->
+<div class="sentiment-stats">
+    <p><strong>Positive:</strong> {{ sentiment_data.positive }}%</p>
+    <p><strong>Negative:</strong> {{ sentiment_data.negative }}%</p>
+    <p><strong>Neutral:</strong> {{ sentiment_data.neutral }}%</p>
+</div>
+
+<!-- Graph Container -->
+<div class="chart-container">
+    <canvas id="sentimentChart"></canvas>
+</div>
+
+<!-- Load Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const sentimentData = {
+        positive: {{ sentiment_data.positive }},
+        negative: {{ sentiment_data.negative }},
+        neutral: {{ sentiment_data.neutral }}
+    };
+
+    // Render Pie Chart
+    const ctx = document.getElementById('sentimentChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Positive', 'Negative', 'Neutral'],
+            datasets: [{
+                data: [sentimentData.positive, sentimentData.negative, sentimentData.neutral],
+                backgroundColor: ['#4CAF50', '#FF5252', '#FFC107']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<a href="{{ url_for('dashboard') }}">
+    <button class="back-button">Back to Dashboard</button>
+</a>
+
+{% endblock %}

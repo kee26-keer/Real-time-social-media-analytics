@@ -1,0 +1,10 @@
+flask
+pandas
+numpy
+kafka-python
+pyspark
+scikit-learn
+matplotlib
+plotly
+dash
+tweepy
